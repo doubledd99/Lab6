@@ -5,11 +5,11 @@ using namespace std;
 
 int input();
 bool badInput(bool validInput);
-int display(unsigned int integer, bool valid);
-int integerToBinary(int integer);
+int display(unsigned long int integer, bool valid);
+int integerToBinary(unsigned long int integer);
 
 int main() {
-	cout << "	Binary Number	" << "		Decimal Equilivant";
+	cout << "		Binary Number	" << "		Decimal Equilivant";
 	input();
 	return 0;
 }
@@ -26,8 +26,8 @@ int input() {
 	//inFile.width(1);
 	inFile.get(number);
 	cout << endl;		
-	unsigned int totalNumber = 0;
-	unsigned int integerNumber;
+	unsigned long int totalNumber = 0;
+	unsigned long int integerNumber;
 	//cout << prevNum;
 	while (inFile) {
 		integerNumber = 0;
@@ -53,7 +53,7 @@ int input() {
 					if (number == '1' || number == '0') {
 					}
 					//cout << "valid number: ";
-					integerNumber = integerNumber * 2 + int(number) - 48;
+					integerNumber = integerNumber * 2 + unsigned long int(number) - 48;
 					inFile.get(number);
 				}
 			}
@@ -101,7 +101,7 @@ int input() {
 	return 0;
 }
 
-int charToInt(unsigned int number) {
+int charToInt(unsigned long int number) {
 	number = 0;
 	return number;
 }
@@ -115,24 +115,61 @@ bool badInput(bool validInput) {
 		return false;
 	}
 }
-int display(unsigned int integer, bool valid) {
+
+int display(unsigned long int integer, bool valid) {
+	int binaryTabs;
+	string spaceBinary;
+	string spaceDecimal;
+	string beforeDecimal;
+	int decimalTabs;
+
 	cout << endl;
+	unsigned long int binary = integerToBinary(integer);
+	unsigned long int binarySize = binary;
+	unsigned long int decimalSize = integer;
+	unsigned long int number_of_digits = 0;
+	unsigned long int number_of_decimal_digits = 0;
+
+
 	if (valid == true) {
-		unsigned int binary = integerToBinary(integer);
-		cout << "base 10 number: " << integer<< " binary: " << binary;
+		do {
+			++number_of_digits;
+			binarySize /= 10;
+		} while (binarySize);
+		if (number_of_digits % 2 == 1) {
+			beforeDecimal = " ";
+		}
+		binaryTabs = (44 - number_of_digits) / 2;
+		for (binaryTabs > 0; binaryTabs--;) {
+			spaceBinary += " ";
+		}
+		cout << spaceBinary << binary << spaceBinary << beforeDecimal;
+
+		do {
+			++number_of_decimal_digits;
+			decimalSize /= 10;
+		} while (decimalSize);
+		decimalTabs = (24 - number_of_decimal_digits) / 2;
+		for (decimalTabs > 0; decimalTabs--;) {
+			spaceDecimal += " ";
+		}
+		cout << spaceDecimal << integer;
+		//cout << " #" << number_of_digits;
+		//cout << "base 10 number: " << integer<< " binary: " << binary;
 	}
 	else
-		cout << "Bad digit on input";
+		cout<< "             " << "Bad digit on input";
 	return 0;
 }
-int integerToBinary(int integer) {
-	unsigned int binary = 0;
-	int remainder;
+
+int integerToBinary(unsigned long int integer) {
+	unsigned long int binary = 0;
+	unsigned long int remainder;
 		binary = 0;
-		int cnt = 0;
+		unsigned long int cnt = 0;
 		while (integer != 0) {
 			remainder = integer % 2;
-			int c = pow(10, cnt);
+			unsigned long int c = pow(10, cnt);
 			binary += remainder * c;
 			integer /= 2;
 
